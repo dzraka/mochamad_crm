@@ -31,8 +31,6 @@ class ProjectForm
                     ->numeric()
                     ->default(0.0)
                     ->prefix('$'),
-                Toggle::make('needs_approval')
-                    ->required(),
                 DateTimePicker::make('approved_at'),
             ]);
     }

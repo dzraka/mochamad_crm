@@ -15,13 +15,11 @@ class Project extends Model
         'approved_by',
         'status',
         'total_price',
-        'needs_approval',
         'approved_at',
     ];
 
     protected $casts = [
         'total_price' => 'decimal:2',
-        'needs_approval' => 'boolean',
         'approved_at' => 'datetime',
     ];
 

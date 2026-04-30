@@ -27,8 +27,6 @@ class ProjectsTable
                 TextColumn::make('total_price')
                     ->money()
                     ->sortable(),
-                IconColumn::make('needs_approval')
-                    ->boolean(),
                 TextColumn::make('approved_at')
                     ->dateTime()
                     ->sortable(),

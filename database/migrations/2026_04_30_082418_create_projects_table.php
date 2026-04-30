@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreignId('approved_by')->nullable()->constrained('users')->nullOnDelete();
             $table->enum('status', ['waiting_approval', 'approved', 'rejected'])->default('waiting_approval');
             $table->decimal('total_price', 15, 2)->default(0);
-            $table->boolean('needs_approval')->default(false);
             $table->timestamp('approved_at')->nullable();
             $table->timestamps();
         });

@@ -21,15 +21,9 @@ class EditProject extends EditRecord
     {
         $project = $this->record;
         $project->load('items');
-
         $totalPrice = $project->items->sum('subtotal');
-        $needsApproval = $project->items->contains(function ($item) {
-            return $item->negotiated_price < $item->normal_price;
-        });
-
         $project->update([
             'total_price' => $totalPrice,
-            'needs_approval' => $needsApproval,
         ]);
     }
 }

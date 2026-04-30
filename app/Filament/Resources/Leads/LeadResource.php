@@ -20,6 +20,7 @@ use Filament\Forms\Components\Select;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Database\Eloquent\Builder;
 
 class LeadResource extends Resource
 {
@@ -141,5 +142,14 @@ class LeadResource extends Resource
             'create' => CreateLead::route('/create'),
             'edit' => EditLead::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+        if (auth()->user()->isSales()) {
+            $query->where('user_id', auth()->id());
+        }
+        return $query;
     }
 }
