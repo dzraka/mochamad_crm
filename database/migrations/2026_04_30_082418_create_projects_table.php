@@ -24,15 +24,15 @@ return new class extends Migration
         });
 
         Schema::create('project_items', function (Blueprint $table) {
-        $table->id();
-        $table->foreignId('project_id')->constrained()->cascadeOnDelete();
-        $table->foreignId('product_id')->constrained()->cascadeOnDelete();
-        $table->decimal('normal_price', 15, 2);
-        $table->decimal('negotiated_price', 15, 2);
-        $table->integer('qty')->default(1);
-        $table->decimal('subtotal', 15, 2);
-        $table->timestamps();
-    });
+            $table->id();
+            $table->foreignId('project_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
+            $table->decimal('normal_price', 15, 2);
+            $table->decimal('negotiated_price', 15, 2);
+            $table->integer('qty')->default(1);
+            $table->decimal('subtotal', 15, 2);
+            $table->timestamps();
+        });
     }
 
     /**

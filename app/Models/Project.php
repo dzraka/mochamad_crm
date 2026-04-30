@@ -16,7 +16,6 @@ class Project extends Model
         'status',
         'total_price',
         'needs_approval',
-        'notes',
         'approved_at',
     ];
 

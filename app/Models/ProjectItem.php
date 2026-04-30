@@ -23,6 +23,13 @@ class ProjectItem extends Model
         'subtotal' => 'decimal:2',
     ];
 
+    protected static function booted(): void
+    {
+        static::saving(function (ProjectItem $item) {
+            $item->subtotal = $item->negotiated_price * $item->qty;
+        });
+    }
+
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
