@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->decimal('const_price', 15, 2);
+            $table->decimal('cost_price', 15, 2);
             $table->decimal('margin_percent', 5, 2);
             $table->decimal('selling_price', 15, 2);
             $table->boolean('is_active')->default(true);

@@ -17,7 +17,7 @@ class Project extends Model
         'total_price',
         'needs_approval',
         'notes',
-        'approve_at',
+        'approved_at',
     ];
 
     protected $casts = [
