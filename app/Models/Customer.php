@@ -13,7 +13,7 @@ class Customer extends Model
         'project_id',
         'user_id',
         'name',
-        'phone',
+        'contact',
         'address',
         'status',
     ];
