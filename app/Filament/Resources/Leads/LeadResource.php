@@ -79,7 +79,7 @@ class LeadResource extends Resource
                     ->label('Nama')
                     ->searchable(),
                 TextColumn::make('contact')
-                    ->label('Kontak')
+                    ->label('Nomor Telepon')
                     ->searchable(),
                 TextColumn::make('address')
                     ->label('Alamat')
