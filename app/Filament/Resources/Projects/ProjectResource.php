@@ -9,6 +9,7 @@ use App\Filament\Resources\Projects\Schemas\ProjectForm;
 use App\Filament\Resources\Projects\Tables\ProjectsTable;
 use App\Models\Project;
 use BackedEnum;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -23,6 +24,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class ProjectResource extends Resource
 {
@@ -36,7 +38,14 @@ class ProjectResource extends Resource
             ->schema([
                 Select::make('lead_id')
                     ->label('Lead')
-                    ->relationship('lead', 'name')
+                    ->relationship(
+                        'lead',
+                        'name',
+                        fn($query) => auth()->user()->isSales()
+                            ? $query->where('user_id', auth()->id())
+                            : $query
+                    )
+                    ->noOptionsMessage('Tidak ada data lead')
                     ->searchable()
                     ->preload()
                     ->required()
@@ -53,6 +62,7 @@ class ProjectResource extends Resource
                             ->searchable()
                             ->preload()
                             ->required()
+                            ->noOptionsMessage('Tidak ada data produk')
                             ->reactive()
                             ->afterStateUpdated(function ($state, callable $set) {
                                 if ($state) {
@@ -106,9 +116,6 @@ class ProjectResource extends Resource
                 TextColumn::make('total_price')
                     ->label('Total Harga')
                     ->money('IDR'),
-                IconColumn::make('needs_approval')
-                    ->label('Perlu Approval')
-                    ->boolean(),
                 TextColumn::make('created_at')
                     ->label('Tanggal')
                     ->dateTime('d M Y')
@@ -117,6 +124,59 @@ class ProjectResource extends Resource
             ->recordActions([
                 EditAction::make(),
                 DeleteAction::make(),
+                Action::make('approve')
+                    ->label('Approve')
+                    ->icon('heroicon-o-check-circle')
+                    ->color('success')
+                    ->visible(
+                        fn($record) =>
+                        auth()->user()->isManager() &&
+                            $record->status === 'waiting_approval'
+                    )
+                    ->requiresConfirmation()
+                    ->modalHeading('Approve Project')
+                    ->modalDescription('Apakah anda yakin ingin approve project ini ?')
+                    ->action(function ($record) {
+                        $record->update([
+                            'status' => 'approved',
+                            'approved_by' => auth()->id(),
+                            'approved_at' => now(),
+                        ]);
+                        $lead = $record->lead;
+                        $customer = \App\Models\Customer::create([
+                            'lead_id' => $lead->id,
+                            'project_id' => $record->id,
+                            'user_id' => $record->user_id,
+                            'name' => $lead->name,
+                            'contact' => $lead->contact,
+                            'address' => $lead->address,
+                        ]);
+                        foreach ($record->items as $item) {
+                            \App\Models\CustomerService::create([
+                                'customer_id' => $customer->id,
+                                'product_id' => $item->product_id,
+                                'subscription_price' => $item->negotiated_price,
+                                'start_date' => now(),
+                            ]);
+                        }
+                        $lead->update(['status' => 'converted']);
+                    }),
+                Action::make('reject')
+                    ->label('Reject')
+                    ->color('danger')
+                    ->icon('heroicon-o-x-circle')
+                    ->visible(
+                        fn($record) =>
+                        auth()->user()->isManager()
+                            && $record->status === 'waiting_approval'
+                    )
+                    ->requiresConfirmation()
+                    ->modalHeading('Tolak Project')
+                    ->modalDescription('Apakah anda yakin ingin menolak project ini?')
+                    ->action(function ($record) {
+                        $record->update(['status' => 'rejected']);
+                        $record->lead->update(['status' => 'rejected']);
+                    }),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
@@ -139,5 +199,14 @@ class ProjectResource extends Resource
             'create' => CreateProject::route('/create'),
             'edit' => EditProject::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+        if (auth()->user()->isSales()) {
+            $query->where('user_id', auth()->id());
+        }
+        return $query;
     }
 }
