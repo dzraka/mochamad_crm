@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
@@ -28,5 +29,14 @@ class Product extends Model
             $product->selling_price = $product->cost_price
                 + ($product->cost_price * $product->margin_percent / 100);
         });
+    }
+
+    public function projectItems(): HasMany
+    {
+        return $this->hasMany(ProjectItem::class);
+    }
+
+    public function customerServices(): HasMany{
+        return $this->hasMany(CustomerService::class);
     }
 }
