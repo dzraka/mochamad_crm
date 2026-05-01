@@ -27,15 +27,15 @@ class LeadResource extends Resource
 {
     protected static ?string $model = Lead::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::Identification;
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?string $navigationLabel = 'Data Lead';
+    protected static ?string $navigationLabel = 'Prospek';
 
     protected static ?string $modelLabel = 'Lead';
 
-    protected static ?string $pluralModelLabel = 'Data Lead';
+    protected static ?string $pluralModelLabel = 'Data Prospek';
 
     protected static ?int $navigationSort = 1;
 

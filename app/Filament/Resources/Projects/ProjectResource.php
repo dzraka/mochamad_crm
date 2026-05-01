@@ -31,13 +31,13 @@ class ProjectResource extends Resource
 {
     protected static ?string $model = Project::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::DocumentText;
 
-    protected static ?string $navigationLabel = 'Project';
+    protected static ?string $navigationLabel = 'Proyek';
 
     protected static ?string $modelLabel = 'Project';
 
-    protected static ?string $pluralModelLabel = 'Daftar Project';
+    protected static ?string $pluralModelLabel = 'Daftar Proyek';
 
     protected static ?int $navigationSort = 3;
 
@@ -133,8 +133,16 @@ class ProjectResource extends Resource
                     ->sortable(),
             ])
             ->recordActions([
-                EditAction::make(),
-                DeleteAction::make(),
+                EditAction::make()
+                    ->label('')
+                    ->icon('heroicon-o-pencil-square')
+                    ->tooltip('Edit Project'),
+
+                DeleteAction::make()
+                    ->label('')
+                    ->icon('heroicon-o-trash')
+                    ->tooltip('Hapus Project'),
+
                 Action::make('approve')
                     ->label('Approve')
                     ->icon('heroicon-o-check-circle')

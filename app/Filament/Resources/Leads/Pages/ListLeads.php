@@ -16,7 +16,7 @@ class ListLeads extends ListRecords
             CreateAction::make()
                 ->label('')
                 ->icon('heroicon-o-plus')
-                ->tooltip('Tambah Data'),
+                ->tooltip('Tambah Lead Baru'),
         ];
     }
 }

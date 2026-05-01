@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\Customers;
 
-use App\Filament\Resources\Customers\Pages\CreateCustomer;
 use App\Filament\Resources\Customers\Pages\EditCustomer;
 use App\Filament\Resources\Customers\Pages\ListCustomers;
 use App\Filament\Resources\Customers\RelationManagers\ServicesRelationManager;
@@ -24,19 +23,24 @@ class CustomerResource extends Resource
 {
     protected static ?string $model = Customer::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::UserGroup;
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?string $navigationLabel = 'Customer';
+    protected static ?string $navigationLabel = 'Klien';
 
     protected static ?string $modelLabel = 'Customer';
 
-    protected static ?string $pluralModelLabel = 'Data Customer';
+    protected static ?string $pluralModelLabel = 'Data Klien';
 
     protected static ?int $navigationSort = 4;
 
     protected static UnitEnum|string|null $navigationGroup = 'Pelanggan';
+
+    public static function canCreate(): bool
+    {
+        return false;
+    }
 
     public static function form(Schema $schema): Schema
     {
@@ -72,8 +76,14 @@ class CustomerResource extends Resource
                     ->sortable(),
             ])
             ->recordActions([
-                ViewAction::make(),
-                EditAction::make(),
+                ViewAction::make()
+                    ->label('')
+                    ->icon('heroicon-o-eye')
+                    ->tooltip('Lihat Data Customer'),
+                EditAction::make()
+                    ->label('')
+                    ->icon('heroicon-o-pencil-square')
+                    ->tooltip('Ubah Data Customer'),
             ]);
     }
 
@@ -88,7 +98,6 @@ class CustomerResource extends Resource
     {
         return [
             'index' => ListCustomers::route('/'),
-            'create' => CreateCustomer::route('/create'),
             'edit' => EditCustomer::route('/{record}/edit'),
         ];
     }
