@@ -25,12 +25,23 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use UnitEnum;
 
 class ProjectResource extends Resource
 {
     protected static ?string $model = Project::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+
+    protected static ?string $navigationLabel = 'Project';
+
+    protected static ?string $modelLabel = 'Project';
+
+    protected static ?string $pluralModelLabel = 'Daftar Project';
+
+    protected static ?int $navigationSort = 3;
+
+    protected static UnitEnum|string|null $navigationGroup = 'Penjualan';
 
     public static function form(Schema $schema): Schema
     {

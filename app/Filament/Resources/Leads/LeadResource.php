@@ -21,6 +21,7 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
+use UnitEnum;
 
 class LeadResource extends Resource
 {
@@ -29,6 +30,16 @@ class LeadResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $recordTitleAttribute = 'name';
+
+    protected static ?string $navigationLabel = 'Data Lead';
+
+    protected static ?string $modelLabel = 'Lead';
+
+    protected static ?string $pluralModelLabel = 'Data Lead';
+
+    protected static ?int $navigationSort = 1;
+
+    protected static UnitEnum|string|null $navigationGroup = 'Penjualan';
 
     public static function form(Schema $schema): Schema
     {
