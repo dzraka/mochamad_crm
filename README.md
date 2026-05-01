@@ -1,5 +1,7 @@
 # CRM PT. Smart
 
+**Live Demo:** [https://smart-crm.up.railway.app](https://smart-crm.up.railway.app)
+
 ### Tech Stack
 
 - **Framework:** Laravel 13
