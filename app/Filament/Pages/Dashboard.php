@@ -5,20 +5,19 @@ namespace App\Filament\Pages;
 use App\Models\Customer;
 use App\Models\Lead;
 use App\Models\Project;
-use BackedEnum;
-use Filament\Pages\Page;
-use Filament\Support\Icons\Heroicon;
+use Filament\Pages\Dashboard as BaseDashboard;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Writer\XLSX\Writer;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
-class ReportPage extends Page
+class Dashboard extends BaseDashboard
 {
-    protected string $view = 'filament.pages.report-page';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-s-home';
+    protected static ?string $navigationLabel = 'Dashboard';
+    protected static ?string $title = 'Dashboard';
 
-    protected static ?string $title = 'Laporan';
-    protected static ?string $navigationLabel = 'Laporan';
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChartBar;
+    protected string $view = 'filament.pages.dashboard';
+
     public ?string $start_date = null;
     public ?string $end_date = null;
 
