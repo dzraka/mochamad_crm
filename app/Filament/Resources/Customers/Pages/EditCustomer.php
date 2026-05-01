@@ -16,4 +16,14 @@ class EditCustomer extends EditRecord
             DeleteAction::make(),
         ];
     }
+
+    protected function getSavedNotificationTitle(): ?string
+    {
+        return 'Perubahan customer berhasil disimpan!';
+    }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

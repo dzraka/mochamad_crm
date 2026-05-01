@@ -16,4 +16,14 @@ class EditProduct extends EditRecord
             DeleteAction::make(),
         ];
     }
+
+    protected function getSavedNotificationTitle(): ?string
+    {
+        return 'Perubahan produk berhasil disimpan!';
+    }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

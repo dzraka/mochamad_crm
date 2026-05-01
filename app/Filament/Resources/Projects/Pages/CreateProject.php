@@ -15,6 +15,11 @@ class CreateProject extends CreateRecord
         return $data;
     }
 
+    protected function getSavedNotificationTitle(): ?string
+    {
+        return 'Project berhasil dibuat!';
+    }
+
     protected function afterCreate(): void
     {
         $project = $this->record;
@@ -22,5 +27,10 @@ class CreateProject extends CreateRecord
         $project->update([
             'total_price' => $totalPrice,
         ]);
+    }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
     }
 }

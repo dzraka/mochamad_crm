@@ -17,6 +17,11 @@ class EditProject extends EditRecord
         ];
     }
 
+    protected function getSavedNotificationTitle(): ?string
+    {
+        return 'Perubahan project berhasil disimpan!';
+    }
+
     protected function afterSave(): void
     {
         $project = $this->record;
@@ -25,5 +30,10 @@ class EditProject extends EditRecord
         $project->update([
             'total_price' => $totalPrice,
         ]);
+    }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
     }
 }
