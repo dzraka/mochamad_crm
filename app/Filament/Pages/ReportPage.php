@@ -8,6 +8,9 @@ use App\Models\Project;
 use BackedEnum;
 use Filament\Pages\Page;
 use Filament\Support\Icons\Heroicon;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Writer\XLSX\Writer;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class ReportPage extends Page
 {
@@ -57,4 +60,26 @@ class ReportPage extends Page
     }
 
     public function filter(): void {}
+
+    public function export(): BinaryFileResponse
+    {
+        $projects = $this->getProjects();
+        $filePath = storage_path('app/laporan-project-' . now()->format('Y-m-d') . '.xlsx');
+        $writer = new Writer();
+        $writer->openToFile($filePath);
+        $writer->addRow(Row::fromValues(['No', 'Nama Lead', 'Sales', 'Status', 'Total Harga', 'Tanggal']));
+        $no = 1;
+        foreach ($projects as $project) {
+            $writer->addRow(Row::fromValues([
+                $no++,
+                $project->lead->name ?? '-',
+                $project->user->name ?? '-',
+                ucfirst(str_replace('_', ' ', $project->status)),
+                (float) $project->total_price,
+                $project->created_at->format('d/m/Y'),
+            ]));
+        }
+        $writer->close();
+        return response()->download($filePath)->deleteFileAfterSend();
+    }
 }

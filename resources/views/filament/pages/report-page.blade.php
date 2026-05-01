@@ -37,8 +37,12 @@
         </div>
     </div>
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow border dark:border-gray-700 overflow-hidden">
-        <div class="px-4 py-3 border-b dark:border-gray-700">
+        <div class="px-4 py-3 border-b dark:border-gray-700 flex justify-between items-center">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Detail Project</h3>
+            <button wire:click="export"
+                class="bg-green-600 hover:bg-green-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition">
+                Export Excel
+            </button>
         </div>
         <div class="overflow-x-auto">
             <table class="w-full text-sm text-left">
